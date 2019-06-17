@@ -1,16 +1,28 @@
 
 import java.io.*;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 
 public class FileIO {
 
     private File file;
     private byte[] bytes;
+    private FileChannel fn;
+    private FileInputStream fis;
+
+
 
     public FileIO(File file){
 
-        this.file = file;
-        bytes = fileToBytes(file);
+        try{
+            this.file = file;
+            bytes = fileToBytes(file);
+            fis = new FileInputStream(file);
+            fn = fis.getChannel();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
