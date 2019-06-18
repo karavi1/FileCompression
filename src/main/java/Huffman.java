@@ -8,6 +8,8 @@ public class Huffman {
     private FileMetadata fm;
     private byte[] bytes;
     private PriorityQueue<Node> minHeap;
+    private Node root;
+    private Map<Character, String> encodings;
 
 
     Comparator<Node> comparator = new Comparator<Node>() {
@@ -20,6 +22,8 @@ public class Huffman {
     public class Node{
         private char character;
         private int frequency;
+        private Node left;
+        private Node right;
         public Node(char c, int f){
             this.character = c;
             this.frequency = f;
@@ -37,7 +41,7 @@ public class Huffman {
         this.fm = new FileMetadata(file);
         this.bytes = fm.getBytes();
         this.minHeap = new PriorityQueue<>(comparator);
-
+        this.encodings = new HashMap<>();
 
     }
 
@@ -47,14 +51,13 @@ public class Huffman {
 
         for (Byte b : bytes){
             char c = (char)(int) b;
-            if (frequencies.get(c) == null){
-                frequencies.put(c, 1);
-            }
-            else {
+            if (frequencies.containsKey(c)){
                 frequencies.put(c,frequencies.get(c) + 1);
             }
+            else {
+                frequencies.put(c, 1);
+            }
         }
-
         for (Character ch : frequencies.keySet()){
             Node node = new Node(ch, frequencies.get(ch));
             minHeap.add(node);
@@ -62,11 +65,27 @@ public class Huffman {
     }
 
     public void buildHuffmanTree(){
-
+        while (!minHeap.isEmpty()){
+            Node first = minHeap.poll();
+            Node second = minHeap.poll();
+            if (second != null) {
+                Node internal = new Node('\u0000', first.frequency + second.frequency);
+                internal.left = first;
+                internal.right = second;
+                root = internal;
+                minHeap.add(internal);
+            }
+        }
     }
 
-    public void buildEncodings(){
-
+    public void buildEncodings(Node current, String prefix){
+        if (current.left == null && current.right == null && current.character != '\u0000'){
+            encodings.put(current.character, prefix);
+        }
+        else{
+            buildEncodings(current.left, prefix + "0");
+            buildEncodings(current.right, prefix + "1");
+        }
     }
 
     // Getters
@@ -109,7 +128,12 @@ public class Huffman {
     public static void main (String [] args){
         Huffman h = new Huffman();
         h.buildFrequenciesAndMinHeap();
-
+        h.buildHuffmanTree();
+        h.buildEncodings(h.root, "");
+        System.out.println();
+        for (Character c : h.encodings.keySet()){
+            System.out.println("Character: " + c + ", Frequency: " + h.frequencies.get(c) + ", Encoding: " + h.encodings.get(c));
+        }
     }
 
 }
