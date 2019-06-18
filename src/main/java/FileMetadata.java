@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 public class FileMetadata {
@@ -30,9 +28,21 @@ public class FileMetadata {
         return byteArray;
     }
 
-//    public char[] fileToChars(){
-//        FileInputStream fis = new FileInputStream()
-//    }
+
+
+    public void writeCompressedFile(File file){
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            Huffman h = new Huffman();
+            h.run();
+            for (Byte b : h.getFileBytes(){
+                ;
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

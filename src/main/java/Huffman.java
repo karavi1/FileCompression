@@ -11,7 +11,6 @@ public class Huffman {
     private Node root;
     private Map<Character, String> encodings;
 
-
     Comparator<Node> comparator = new Comparator<Node>() {
         @Override
         public int compare(Node o1, Node o2) {
@@ -45,16 +44,13 @@ public class Huffman {
 
     }
 
-
-
     public void buildFrequenciesAndMinHeap() {
 
         for (Byte b : bytes){
             char c = (char)(int) b;
             if (frequencies.containsKey(c)){
                 frequencies.put(c,frequencies.get(c) + 1);
-            }
-            else {
+            } else {
                 frequencies.put(c, 1);
             }
         }
@@ -86,6 +82,12 @@ public class Huffman {
             buildEncodings(current.left, prefix + "0");
             buildEncodings(current.right, prefix + "1");
         }
+    }
+
+    public void run(){
+        buildFrequenciesAndMinHeap();
+        buildHuffmanTree();
+        buildEncodings(root, "");
     }
 
     // Getters
@@ -127,10 +129,7 @@ public class Huffman {
     // Main Method (temporary before writing tests)
     public static void main (String [] args){
         Huffman h = new Huffman();
-        h.buildFrequenciesAndMinHeap();
-        h.buildHuffmanTree();
-        h.buildEncodings(h.root, "");
-        System.out.println();
+        h.run();
         for (Character c : h.encodings.keySet()){
             System.out.println("Character: " + c + ", Frequency: " + h.frequencies.get(c) + ", Encoding: " + h.encodings.get(c));
         }
