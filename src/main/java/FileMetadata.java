@@ -1,24 +1,25 @@
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
-
-public class FileIO {
+public class FileMetadata {
 
     private File file;
     private byte[] bytes;
     private FileChannel fn;
     private FileInputStream fis;
+    private long originalLength;
+    private long compressedLength;
 
 
+    public FileMetadata(File file) {
 
-    public FileIO(File file){
-
-        try{
+        try {
             this.file = file;
             bytes = fileToBytes(file);
             fis = new FileInputStream(file);
-            fn = fis.getChannel();
+            originalLength = file.length();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -26,21 +27,22 @@ public class FileIO {
 
     }
 
-    public byte[] fileToBytes(File file){
+    public byte[] fileToBytes(File file) {
         byte[] byteArray;
-        try{
+        try {
             byteArray = Files.readAllBytes(file.toPath());
-
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             byteArray = null;
         }
         return byteArray;
     }
 
-
-    public void serialize(){
-
+    public byte[] getBytes(){
+        return bytes;
     }
 
+    public File getFile(){
+        return file;
+    }
 }
