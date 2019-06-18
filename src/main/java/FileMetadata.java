@@ -7,36 +7,34 @@ public class FileMetadata {
 
     private File file;
     private byte[] bytes;
-    private FileChannel fn;
-    private FileInputStream fis;
     private long originalLength;
     private long compressedLength;
 
 
     public FileMetadata(File file) {
 
-        try {
-            this.file = file;
-            bytes = fileToBytes(file);
-            fis = new FileInputStream(file);
-            originalLength = file.length();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.file = file;
+        bytes = fileToBytes();
+        originalLength = file.length();
 
     }
 
-    public byte[] fileToBytes(File file) {
+    public byte[] fileToBytes() {
         byte[] byteArray;
         try {
-            byteArray = Files.readAllBytes(file.toPath());
+            byteArray = Files.readAllBytes(this.file.toPath());
         } catch (Exception e) {
             e.printStackTrace();
             byteArray = null;
         }
         return byteArray;
     }
+
+//    public char[] fileToChars(){
+//        FileInputStream fis = new FileInputStream()
+//    }
+
+
 
     public byte[] getBytes(){
         return bytes;
