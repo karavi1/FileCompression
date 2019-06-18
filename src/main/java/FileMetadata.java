@@ -35,8 +35,8 @@ public class FileMetadata {
             FileOutputStream fos = new FileOutputStream(file);
             Huffman h = new Huffman();
             h.run();
-            for (Byte b : h.getFileBytes(){
-                ;
+            for (Byte b : h.getFileBytes()){
+
             }
 
         } catch (FileNotFoundException e) {
