@@ -111,6 +111,10 @@ public class Huffman {
         return minHeap;
     }
 
+    public Map<Character, String> getEncodings() {
+        return encodings;
+    }
+
 
     // Setters
     public void setFrequencies(Map<Character, Integer> newFrequencies){

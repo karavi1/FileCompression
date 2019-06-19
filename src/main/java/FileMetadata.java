@@ -1,6 +1,7 @@
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.util.*;
 public class FileMetadata {
 
     private File file;
@@ -33,14 +34,23 @@ public class FileMetadata {
     public void writeCompressedFile(File file){
         try {
             FileOutputStream fos = new FileOutputStream(file);
+
             Huffman h = new Huffman();
             h.run();
-            for (Byte b : h.getFileBytes()){
+            Map <Character, String> encodings = h.getEncodings();
+            // Bytes to Concatenated String, then call strToBytes
 
+            String content = "";
+            for (Byte b : h.getFileBytes()){
+                content += encodings.get((char) (int) b);
             }
+            fos.write(content.getBytes());
 
         } catch (FileNotFoundException e) {
+            System.out.println("FileNotFound!");
             e.printStackTrace();
+        } catch (IOException e){
+            System.out.println("IOException due to writing with FileOutputStream!");
         }
     }
 
