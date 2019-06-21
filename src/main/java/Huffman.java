@@ -33,10 +33,9 @@ public class Huffman {
         }
     }
 
-    public Huffman(){
+    public Huffman(File file){
 
         this.frequencies = new HashMap<>();
-        File file = new File("abcdef.txt");
         this.fm = new FileMetadata(file);
         this.bytes = fm.getBytes();
         this.minHeap = new PriorityQueue<>(comparator);
@@ -132,7 +131,9 @@ public class Huffman {
 
     // Main Method (temporary before writing tests)
     public static void main (String [] args){
-        Huffman h = new Huffman();
+        File file = new File("abcdef.txt");
+
+        Huffman h = new Huffman(file);
         h.run();
         for (Character c : h.encodings.keySet()){
             System.out.println("Character: " + c + ", Frequency: " + h.frequencies.get(c) + ", Encoding: " + h.encodings.get(c));

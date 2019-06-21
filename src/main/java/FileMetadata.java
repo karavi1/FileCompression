@@ -31,11 +31,12 @@ public class FileMetadata {
 
 
 
-    public void writeCompressedFile(File file){
+    public void compression(File file){
         try {
+
             FileOutputStream fos = new FileOutputStream(file);
 
-            Huffman h = new Huffman();
+            Huffman h = new Huffman(file);
             h.run();
             Map <Character, String> encodings = h.getEncodings();
             // Bytes to Concatenated String, then call strToBytes
@@ -54,13 +55,15 @@ public class FileMetadata {
         }
     }
 
-
-
     public byte[] getBytes(){
         return bytes;
     }
 
     public File getFile(){
         return file;
+    }
+
+    public static void main (String [] args){
+
     }
 }
