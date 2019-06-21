@@ -6,15 +6,11 @@ public class FileMetadata {
 
     private File file;
     private byte[] bytes;
-    private long originalLength;
-    private long compressedLength;
-
 
     public FileMetadata(File file) {
 
         this.file = file;
         bytes = fileToBytes();
-        originalLength = file.length();
 
     }
 
@@ -27,32 +23,6 @@ public class FileMetadata {
             byteArray = null;
         }
         return byteArray;
-    }
-
-
-
-    public void compression(File file){
-        try {
-
-            FileOutputStream fos = new FileOutputStream(file);
-
-            Huffman h = new Huffman(file);
-            h.run();
-            Map <Character, String> encodings = h.getEncodings();
-            // Bytes to Concatenated String, then call strToBytes
-
-            String content = "";
-            for (Byte b : h.getFileBytes()){
-                content += encodings.get((char) (int) b);
-            }
-            fos.write(content.getBytes());
-
-        } catch (FileNotFoundException e) {
-            System.out.println("FileNotFound!");
-            e.printStackTrace();
-        } catch (IOException e){
-            System.out.println("IOException due to writing with FileOutputStream!");
-        }
     }
 
     public byte[] getBytes(){

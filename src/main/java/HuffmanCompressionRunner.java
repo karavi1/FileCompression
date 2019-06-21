@@ -34,6 +34,7 @@ public class HuffmanCompressionRunner {
             e.printStackTrace();
         } catch (IOException e){
             System.out.println("IOException due to writing with FileOutputStream!");
+            e.printStackTrace();
         }
     }
 
