@@ -1,14 +1,13 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Map;
 
-public class CompressionRunner {
+import java.io.*;
+import java.util.*;
+
+
+public class HuffmanCompressionRunner {
 
     private File originalFile;
 
-    public CompressionRunner(File file){
+    public HuffmanCompressionRunner(File file){
         this.originalFile = file;
     }
 
@@ -17,7 +16,7 @@ public class CompressionRunner {
             // Fix the file type later (make more general)
             File compressedFile = new File("compressed.txt");
             FileOutputStream fos = new FileOutputStream(compressedFile);
-
+            OutputStream writer = new BufferedOutputStream(fos);
             Huffman h = new Huffman(originalFile);
             h.run();
             Map<Character, String> encodings = h.getEncodings();
@@ -28,7 +27,7 @@ public class CompressionRunner {
                 content += encodings.get((char) (int) b);
             }
             System.out.println();
-            fos.write(content.getBytes());
+            writer.write(content.getBytes());
 
         } catch (FileNotFoundException e) {
             System.out.println("FileNotFound!");
@@ -38,15 +37,8 @@ public class CompressionRunner {
         }
     }
 
+    public void decompression(){
 
-    public static void main (String [] args){
-
-        File abcde = new File("abcdef.txt");
-        CompressionRunner cr = new CompressionRunner(abcde);
-        cr.compression();
     }
-
-
-
 
 }
