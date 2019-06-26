@@ -33,7 +33,4 @@ public class FileMetadata {
         return file;
     }
 
-    public static void main (String [] args){
-
-    }
 }
